@@ -5,7 +5,8 @@ namespace MyFatoorah\Library;
 use Exception;
 
 /**
- * Class MyfatoorahApiV2 is responsible for handling calling MyFatoorah API endpoints. Also, It has necessary library functions that help in providing the correct parameters used endpoints.
+ * Class MyfatoorahApiV2 is responsible for handling calling MyFatoorah API endpoints.
+ * Also, It has necessary library functions that help in providing the correct parameters used endpoints.
  *
  * MyFatoorah offers a seamless business experience by offering a technology put together by our tech team. This enables smooth business operations involving sales activity, product invoicing, shipping, and payment processing. MyFatoorah invoicing and payment gateway solution trigger your business to greater success at all levels in the new age world of commerce. Leverage your sales and payments at all e-commerce platforms (ERPs, CRMs, CMSs) with transparent and slick applications that are well-integrated into social media and telecom services. For every closing sale click, you make a business function gets done for you, along with generating factual reports and statistics to fine-tune your business plan with no-barrier low-cost.
  * Our technology experts have designed the best GCC E-commerce solutions for the native financial instruments (Debit Cards, Credit Cards, etc.) supporting online sales and payments, for events, shopping, mall, and associated services.
@@ -17,7 +18,7 @@ use Exception;
  *
  * API Documentation on https://myfatoorah.readme.io/docs
  * Library Documentation and Download link on https://myfatoorah.readme.io/docs/php-library
- * 
+ *
  * @author    MyFatoorah <tech@myfatoorah.com>
  * @copyright 2021 MyFatoorah, All rights reserved
  * @license   GNU General Public License v3.0
@@ -27,31 +28,31 @@ class MyfatoorahApiV2 {
 
     /**
      * The URL used to connect to MyFatoorah test/live API server
-     * 
-     * @var string 
+     *
+     * @var string
      */
     protected $apiURL = '';
 
     /**
      * The API Token Key is the authentication which identify a user that is using the app
      * To generate one follow instruction here https://myfatoorah.readme.io/docs/live-token
-     *  
+     *
      * @var string
      */
     protected $apiKey;
 
     /**
      * This is the file name or the logger object
-     * It will be used in logging the payment/shipping events to help in debugging and monitor the process and connections.
-     * 
+     * It is used in logging the payment/shipping events to help in debugging and monitor the process and connections.
+     *
      * @var string|object
      */
     protected $loggerObj;
 
     /**
      * If $loggerObj is set as a logger object, you should set this var with the function name that will be used in the debugging.
-     * 
-     * @var string 
+     *
+     * @var string
      */
     protected $loggerFunc;
 
@@ -60,12 +61,12 @@ class MyfatoorahApiV2 {
     /**
      * Constructor
      * Initiate new MyFatoorah API process
-     *  
+     *
      * @param string        $apiKey      The API Token Key is the authentication which identify a user that is using the app. To generate one follow instruction here https://myfatoorah.readme.io/docs/live-token.
      * @param string        $countryMode Select the country mode.
-     * @param boolean       $isTest      If This set to true, the process will be on the test mode. Set it to false for live mode.
-     * @param string|object $loggerObj   It is optional. This is the file name or the logger object. It will be used in logging the payment/shipping events to help in debugging and monitor the process and connections. Leave it null, if you done't want to log the events.
-     * @param string        $loggerFunc  It is optional. If $loggerObj is set as a logger object, you should set this var with the function name that will be used in the debugging.
+     * @param boolean       $isTest      Set it to false for live mode.
+     * @param string|object $loggerObj   This is the file name or the logger object. It is used in logging the payment/shipping events to help in debugging and monitor the process and connections. Leave it null, if you don't want to log the events.
+     * @param string        $loggerFunc  If $loggerObj is set as a logger object, you should set this var with the function name that will be used in the debugging.
      */
     public function __construct($apiKey, $countryMode = 'KWT', $isTest = false, $loggerObj = null, $loggerFunc = null) {
 
@@ -86,15 +87,15 @@ class MyfatoorahApiV2 {
     //-----------------------------------------------------------------------------------------------------------------------------------------
 
     /**
-     * 
-     * @param string         $url        It is the MyFatoorah API endpoint URL
-     * @param array          $postFields It is the array of the POST request parameters. It should be set to null if the request is GET.
-     * @param integer|string $orderId    It is optional. It is the order id or the payment id of the process. It will be used in the events logging.
-     * @param string         $function   It is optional. The function name that made the request. It will be used in the events logging.
-     * 
-     * @return object           The response object as the result of a successful calling to the API.
-     * 
-     * @throws Exception        Throw exception if there is any curl error or a validation error in the MyFatoorah API endpoint URL
+     *
+     * @param string         $url        MyFatoorah API endpoint URL
+     * @param array          $postFields POST request parameters array. It should be set to null if the request is GET.
+     * @param integer|string $orderId    The order id or the payment id of the process, used for the events logging.
+     * @param string         $function   The requester function name, used for the events logging.
+     *
+     * @return object       The response object as the result of a successful calling to the API.
+     *
+     * @throws Exception    Throw exception if there is any curl/validation error in the MyFatoorah API endpoint URL
      */
     public function callAPI($url, $postFields = null, $orderId = null, $function = null) {
 
@@ -136,20 +137,20 @@ class MyfatoorahApiV2 {
 
         $this->log("$msgLog - Response: $res");
 
-        $json = json_decode($res);
+        $json = json_decode((string) $res);
 
         //***************************************
         //check for errors
         //***************************************
 
-        $error = $this->getAPIError($json, $res);
+        $error = $this->getAPIError($json, (string) $res);
         if ($error) {
             $this->log("$msgLog - Error: $error");
             throw new Exception($error);
         }
 
         //***************************************
-        //Success 
+        //Success
         //***************************************
         return $json;
     }
@@ -158,10 +159,10 @@ class MyfatoorahApiV2 {
 
     /**
      * Handles Endpoint Errors Function
-     * 
+     *
      * @param object|string $json
      * @param string        $res
-     * 
+     *
      * @return string
      */
     protected function getAPIError($json, $res) {
@@ -170,9 +171,16 @@ class MyfatoorahApiV2 {
             return '';
         }
 
-        //to avoid blocked IP <html><head><title>403 Forbidden</title></head><body><center><h1>403 Forbidden</h1></center><hr><center>Microsoft-Azure-Application-Gateway/v2</center></body></html>
+        //to avoid blocked IP like:
+        //<html>
+        //<head><title>403 Forbidden</title></head>
+        //<body>
+        //<center><h1>403 Forbidden</h1></center><hr><center>Microsoft-Azure-Application-Gateway/v2</center>
+        //</body>
+        //</html>
+        //and, skip apple register <YourDomainName> tag error
         $stripHtmlStr = strip_tags($res);
-        if ($res != $stripHtmlStr) {
+        if ($res != $stripHtmlStr && !stripos($stripHtmlStr, 'apple-developer-merchantid-domain-association')) {
             return trim(preg_replace('/\s+/', ' ', $stripHtmlStr));
         }
 
@@ -197,9 +205,9 @@ class MyfatoorahApiV2 {
 
     /**
      * Check for the json (response model) errors
-     * 
+     *
      * @param object|string $json
-     * 
+     *
      * @return string
      */
     protected function getJsonErrors($json) {
@@ -219,9 +227,20 @@ class MyfatoorahApiV2 {
             return $json->Data->ErrorMessage;
         }
 
-        //if not get the message. this is due that sometimes errors with ValidationErrors has Error value null so either get the "Name" key or get the "Message"
-        //example {"IsSuccess":false,"Message":"Invalid data","ValidationErrors":[{"Name":"invoiceCreate.InvoiceItems","Error":""}],"Data":null}
-        //example {"Message":"No HTTP resource was found that matches the request URI 'https://apitest.myfatoorah.com/v2/SendPayment222'.","MessageDetail":"No route providing a controller name was found to match request URI 'https://apitest.myfatoorah.com/v2/SendPayment222'"}
+        //if not, get the message.
+        //sometimes Error value of ValidationErrors is null, so either get the "Name" key or get the "Message"
+        //example {
+        //"IsSuccess":false,
+        //"Message":"Invalid data",
+        //"ValidationErrors":[{"Name":"invoiceCreate.InvoiceItems","Error":""}],
+        //"Data":null
+        //}
+        //example {
+        //"Message":
+        //"No HTTP resource was found that matches the request URI 'https://apitest.myfatoorah.com/v2/SendPayment222'.",
+        //"MessageDetail":
+        //"No route providing a controller name was found to match request URI 'https://apitest.myfatoorah.com/v2/SendPayment222'"
+        //}
         if (isset($json->Message)) {
             return $json->Message;
         }
@@ -233,15 +252,15 @@ class MyfatoorahApiV2 {
 
     /**
      * Returns the country code and the phone after applying MyFatoorah restriction
-     * 
+     *
      * Matching regular expression pattern: ^(?:(\+)|(00)|(\\*)|())[0-9]{3,14}((\\#)|())$
      * if (!preg_match('/^(?:(\+)|(00)|(\\*)|())[0-9]{3,14}((\\#)|())$/iD', $inputString))
      * String length: inclusive between 0 and 11
-     * 
+     *
      * @param string $inputString It is the input phone number provide by the end user.
-     * 
+     *
      * @return array        That contains the phone code in the 1st element the the phone number the the 2nd element.
-     * 
+     *
      * @throws Exception    Throw exception if the input length is less than 3 chars or long than 14 chars.
      */
     public static function getPhone($inputString) {
@@ -295,9 +314,9 @@ class MyfatoorahApiV2 {
 
     /**
      * It will log the payment/shipping process events
-     * 
+     *
      * @param string $msg It is the string message that will be written in the log file
-     * 
+     *
      * @return null
      */
     public function log($msg) {
@@ -307,7 +326,7 @@ class MyfatoorahApiV2 {
         }
         if (is_string($this->loggerObj)) {
             error_log(PHP_EOL . date('d.m.Y h:i:s') . ' - ' . $msg, 3, $this->loggerObj);
-        } else if (method_exists($this->loggerObj, $this->loggerFunc)) {
+        } elseif (method_exists($this->loggerObj, $this->loggerFunc)) {
             $this->loggerObj->{$this->loggerFunc}($msg);
         }
     }
@@ -316,71 +335,76 @@ class MyfatoorahApiV2 {
 
     /**
      * Get the rate that will convert the given weight unit to MyFatoorah default weight unit.
-     * 
-     * @param string $unit It is the weight unit used. Weight must be in kg, g, lbs, or oz. Default is kg.
-     * 
-     * @return double|integer The conversion rate that will convert the given unit into the kg. 
-     * 
-     * @throws Exception Throw exception if the input unit is not support. Weight must be in kg, g, lbs, or oz. Default is kg.
+     * Weight must be in kg, g, lbs, or oz. Default is kg.
+     *
+     * @param string $unit It is the weight unit used.
+     *
+     * @return double|integer The conversion rate that will convert the given unit into the kg.
+     *
+     * @throws Exception Throw exception if the input unit is not support.
      */
     public static function getWeightRate($unit) {
 
-        $unit1 = strtolower($unit);
-        if ($unit1 == 'kg' || $unit1 == 'kgs' || $unit1 == 'كج' || $unit1 == 'كلغ' || $unit1 == 'كيلو جرام' || $unit1 == 'كيلو غرام') {
-            $rate = 1; //kg is the default
-        } else if ($unit1 == 'g' || $unit1 == 'جرام' || $unit1 == 'غرام' || $unit1 == 'جم') {
-            $rate = 0.001;
-        } else if ($unit1 == 'lbs' || $unit1 == 'lb' || $unit1 == 'رطل' || $unit1 == 'باوند') {
-            $rate = 0.453592;
-        } else if ($unit1 == 'oz' || $unit1 == 'اوقية' || $unit1 == 'أوقية') {
-            $rate = 0.0283495;
-        } else {
-            throw new Exception('Weight units must be in kg, g, lbs, or oz. Default is kg');
-        }
+        $lUnit = strtolower($unit);
 
-        return $rate;
+        //kg is the default
+        $rateUnits = [
+            '1'         => ['kg', 'kgs', 'كج', 'كلغ', 'كيلو جرام', 'كيلو غرام'],
+            '0.001'     => ['g', 'جرام', 'غرام', 'جم'],
+            '0.453592'  => ['lbs', 'lb', 'رطل', 'باوند'],
+            '0.0283495' => ['oz', 'اوقية', 'أوقية'],
+        ];
+
+        foreach ($rateUnits as $rate => $unitArr) {
+            if (array_search($lUnit, $unitArr) !== false) {
+                return (float) $rate;
+            }
+        }
+        throw new Exception('Weight units must be in kg, g, lbs, or oz. Default is kg');
     }
 
     //-----------------------------------------------------------------------------------------------------------------------------------------
 
     /**
      * Get the rate that will convert the given dimension unit to MyFatoorah default dimension unit.
-     * 
-     * @param string $unit It is the dimension unit used in width, hight, or depth. Dimension must be in cm, m, mm, in, or yd. Default is cm.
-     * 
-     * @return double|integer         The conversion rate that will convert the given unit into the cm.
-     * 
-     * @throws Exception    Throw exception if the input unit is not support. Dimension must be in cm, m, mm, in, or yd. Default is cm.
+     * Dimension must be in cm, m, mm, in, or yd. Default is cm.
+     *
+     * @param string $unit It is the dimension unit used in width, hight, or depth.
+     *
+     * @return double|integer   The conversion rate that will convert the given unit into the cm.
+     *
+     * @throws Exception        Throw exception if the input unit is not support.
      */
     public static function getDimensionRate($unit) {
 
-        $unit1 = strtolower($unit);
-        if ($unit1 == 'cm' || $unit1 == 'سم') {
-            $rate = 1; //cm is the default
-        } elseif ($unit1 == 'm' || $unit1 == 'متر' || $unit1 == 'م') {
-            $rate = 100;
-        } else if ($unit1 == 'mm' || $unit1 == 'مم') {
-            $rate = 0.1;
-        } else if ($unit1 == 'in' || $unit1 == 'انش' || $unit1 == 'إنش' || $unit1 == 'بوصه' || $unit1 == 'بوصة') {
-            $rate = 2.54;
-        } else if ($unit1 == 'yd' || $unit1 == 'يارده' || $unit1 == 'ياردة') {
-            $rate = 91.44;
-        } else {
-            throw new Exception('Dimension units must be in cm, m, mm, in, or yd. Default is cm');
-        }
+        $lUnit = strtolower($unit);
 
-        return $rate;
+        //cm is the default
+        $rateUnits = [
+            '1'     => ['cm', 'سم'],
+            '100'   => ['m', 'متر', 'م'],
+            '0.1'   => ['mm', 'مم'],
+            '2.54'  => ['in', 'انش', 'إنش', 'بوصه', 'بوصة'],
+            '91.44' => ['yd', 'يارده', 'ياردة'],
+        ];
+
+        foreach ($rateUnits as $rate => $unitArr) {
+            if (array_search($lUnit, $unitArr) !== false) {
+                return (float) $rate;
+            }
+        }
+        throw new Exception('Dimension units must be in cm, m, mm, in, or yd. Default is cm');
     }
 
     //-----------------------------------------------------------------------------------------------------------------------------------------
 
     /**
      * Gets the rate of a given currency according to the default currency of the MyFatoorah portal account.
-     * 
+     *
      * @param string $currency The currency that will be converted into the currency of MyFatoorah portal account.
-     * 
-     * @return string       The conversion rate that will convert the given currency into the default currency of MyFatoorah portal account.
-     * 
+     *
+     * @return string       The conversion rate converts a given currency to the MyFatoorah account default currency.
+     *
      * @throws Exception    Throw exception if the input currency is not support by MyFatoorah portal account.
      */
     public function getCurrencyRate($currency) {
@@ -398,7 +422,7 @@ class MyfatoorahApiV2 {
 
     /**
      * Get list of MyFatoorah currency rates
-     * 
+     *
      * @return object
      */
     public function getCurrencyRates() {
@@ -411,12 +435,12 @@ class MyfatoorahApiV2 {
 
     /**
      * Calculate the amount value that will be paid in each gateway
-     * 
+     *
      * @param double|integer $totalAmount
      * @param string         $currency
      * @param string         $paymentCurrencyIso
      * @param object         $allRatesData
-     * 
+     *
      * @return array
      */
     protected function calcGatewayData($totalAmount, $currency, $paymentCurrencyIso, $allRatesData) {
@@ -432,7 +456,6 @@ class MyfatoorahApiV2 {
         }
 
         if (isset($baseCurrencyRate) && isset($gatewayCurrencyRate)) {
-
             $baseAmount = ceil(((int) ($totalAmount * 1000)) / $baseCurrencyRate / 10) / 100;
 
             return [
@@ -453,12 +476,12 @@ class MyfatoorahApiV2 {
 
     /**
      * Validate webhook signature function
-     * 
+     *
      * @param array  $dataArray webhook request array
      * @param string $secret    webhook secret key
      * @param string $signature MyFatoorah signature
-     * @param int    $eventType
-     * 
+     * @param int    $eventType MyFatoorah Event type Number (1, 2, 3 , 4)
+     *
      * @return boolean
      */
     public static function isSignatureValid($dataArray, $secret, $signature, $eventType = 0) {
@@ -477,15 +500,15 @@ class MyfatoorahApiV2 {
 
         $output = implode(',', array_map(
                         function ($v, $k) {
-                    return sprintf("%s=%s", $k, $v);
-                },
+                            return sprintf("%s=%s", $k, $v);
+                        },
                         $dataArray,
                         array_keys($dataArray)
         ));
 
         //        $data      = utf8_encode($output);
         //        $keySecret = utf8_encode($secret);
-        // generate hash of $field string 
+        // generate hash of $field string
         $hash = base64_encode(hash_hmac('sha256', $output, $secret, true));
 
         if ($signature === $hash) {
@@ -499,7 +522,7 @@ class MyfatoorahApiV2 {
 
     /**
      * Get a list of MyFatoorah countries and their API URLs and names
-     * 
+     *
      * @return array of MyFatoorah data
      */
     public static function getMyFatoorahCountries() {
@@ -525,12 +548,12 @@ class MyfatoorahApiV2 {
     //-----------------------------------------------------------------------------------------------------------------------------------------
 
     /**
-     * 
+     *
      * @param string $cachedFile
-     * 
+     *
      * @return array
      */
-    static protected function createNewMFConfigFile($cachedFile) {
+    protected static function createNewMFConfigFile($cachedFile) {
 
         $curl = curl_init('https://portal.myfatoorah.com/Files/API/mf-config.json');
         curl_setopt_array($curl, array(
@@ -542,10 +565,10 @@ class MyfatoorahApiV2 {
         $http_code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
         curl_close($curl);
 
-        if ($http_code == 200) {
+        if ($http_code == 200 && is_string($response)) {
             file_put_contents($cachedFile, $response);
             return json_decode($response, true);
-        } else if ($http_code == 403) {
+        } elseif ($http_code == 403) {
             touch($cachedFile);
             $fileContent = file_get_contents($cachedFile);
             if (!empty($fileContent)) {

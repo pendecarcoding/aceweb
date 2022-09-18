@@ -1,7 +1,7 @@
 {
     "name": "myfatoorah/library",
     "description": "MyFatoorah PHP Library",
-    "version": "2.0.0",
+    "version": "2.1.0",
     "type": "library",
     "license": [
         "GPL-3.0-only"
@@ -32,12 +32,15 @@
         "gateway",
         "payment",
         "Shipping",
-        "api"
+        "api",
+        "commerce",
+        "Library"
     ],
     "homepage": "https://myfatoorah.com/",
     "authors": [
         {
-            "name": "MyFatoorah Plugin Team"
+            "name": "MyFatoorah Plugin Team",
+            "email": "plugins@myfatoorah.com"
         },
         {
             "name": "Nermeen Shoman",

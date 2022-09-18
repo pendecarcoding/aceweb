@@ -11,7 +11,7 @@ class ShippingMyfatoorahApiV2Test extends \PHPUnit\Framework\TestCase {
 //-----------------------------------------------------------------------------------------------------------------------------------------
     public function __construct() {
         parent::__construct();
-        $this->keys = include ('apiKeys.php');
+        $this->keys = include('apiKeys.php');
     }
 
 //-----------------------------------------------------------------------------------------------------------------------------------------
@@ -68,7 +68,7 @@ class ShippingMyfatoorahApiV2Test extends \PHPUnit\Framework\TestCase {
 
         $json = $mfObj->calculateShippingCharge($shippingData);
         $this->assertEquals('KD', $json->Data->Currency);
-        $this->assertEquals(45.926, $json->Data->Fees);
+        $this->assertEquals(52.189, $json->Data->Fees);
     }
 
     public function testCalculateShippingChargeExceptionProductName() {

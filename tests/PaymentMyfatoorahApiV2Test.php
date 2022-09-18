@@ -11,7 +11,7 @@ class PaymentMyfatoorahApiV2Test extends \PHPUnit\Framework\TestCase {
 //-----------------------------------------------------------------------------------------------------------------------------------------
     public function __construct() {
         parent::__construct();
-        $this->keys = include ('apiKeys.php');
+        $this->keys = include('apiKeys.php');
     }
 
 //-----------------------------------------------------------------------------------------------------------------------------------------
@@ -22,7 +22,7 @@ class PaymentMyfatoorahApiV2Test extends \PHPUnit\Framework\TestCase {
                 $mfObj = new PaymentMyfatoorahApiV2($token['apiKey'], $token['countryMode'], $token['isTest']);
                 $json  = $mfObj->getVendorGateways();
 
-                $this->assertEquals('AMEX', $json[0]->PaymentMethodEn);
+                $this->assertEquals('Sadad', $json[0]->PaymentMethodEn);
             } catch (\Exception $ex) {
                 $this->assertEquals($token['exception'], $ex->getMessage(), $token['message']);
             }
@@ -34,7 +34,7 @@ class PaymentMyfatoorahApiV2Test extends \PHPUnit\Framework\TestCase {
     /**
      * change the accessibility of a function
      * usage $method->invokeArgs($mfObj, [$ua]);
-     * 
+     *
      * @param type $name
      * @return type
      */

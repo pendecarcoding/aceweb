@@ -6,7 +6,7 @@ use MyFatoorah\Library\MyfatoorahApiV2;
 
 /**
  * This class handles the shipping process of MyFatoorah API endpoints
- * 
+ *
  * @author    MyFatoorah <tech@myfatoorah.com>
  * @copyright 2021 MyFatoorah, All rights reserved
  * @license   GNU General Public License v3.0
@@ -16,7 +16,7 @@ class ShippingMyfatoorahApiV2 extends MyfatoorahApiV2 {
 
     /**
      * Get MyFatoorah Shipping Countries (GET API)
-     * 
+     *
      * @return object
      */
     public function getShippingCountries() {
@@ -30,11 +30,11 @@ class ShippingMyfatoorahApiV2 extends MyfatoorahApiV2 {
 
     /**
      * Get Shipping Cities (GET API)
-     * 
+     *
      * @param integer $method      [1 for DHL, 2 for Aramex]
      * @param string  $countryCode It can be obtained from getShippingCountries
      * @param string  $searchValue The key word that will be used in searching
-     * 
+     *
      * @return object
      */
     public function getShippingCities($method, $countryCode, $searchValue = '') {
@@ -53,9 +53,9 @@ class ShippingMyfatoorahApiV2 extends MyfatoorahApiV2 {
 
     /**
      * Calculate Shipping Charge (POST API)
-     * 
+     *
      * @param array $curlData the curl data contains the shipping information
-     * 
+     *
      * @return object
      */
     public function calculateShippingCharge($curlData) {

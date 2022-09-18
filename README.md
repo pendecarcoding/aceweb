@@ -57,6 +57,12 @@ echo 'Phone number: ' . $phone[1];
 phpunit
 ```
 
+## Credits
+
+- [MyFatoorah Plugin Team](https://github.com/my-fatoorah)
+- [Nermeen Shoman](mailto:nshoman@myfatoorah.com)
+- [Rasha Saeed](mailto:rsaeed@myfatoorah.com)
+
 ## License
 
 The GPL-3.0-only License.
