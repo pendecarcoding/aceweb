@@ -643,7 +643,9 @@ class PaymentMyfatoorahApiV2 extends MyfatoorahApiV2 {
     public function getEmbeddedSession($userDefinedField = '', $orderId = null) {
 
         $customerIdentifier = ['CustomerIdentifier' => $userDefinedField];
-        return $this->callAPI("$this->apiURL/v2/InitiateSession", $customerIdentifier, $orderId, 'Initiate Session');
+        
+        $json = $this->callAPI("$this->apiURL/v2/InitiateSession", $customerIdentifier, $orderId, 'Initiate Session');
+        return $json->Data;
     }
 
     //-----------------------------------------------------------------------------------------------------------------------------------------
