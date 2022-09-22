@@ -238,7 +238,7 @@ class PaymentMyfatoorahApiV2 extends MyfatoorahApiV2 {
      */
     protected static function isAppleSystem() {
 
-        $userAgent = filter_input(INPUT_SERVER, 'HTTP_USER_AGENT', FILTER_SANITIZE_STRING);
+        $userAgent = $_SERVER['HTTP_USER_AGENT'];
 
         if ((stripos($userAgent, 'iPod') || stripos($userAgent, 'iPhone') || stripos($userAgent, 'iPad') || stripos($userAgent, 'Mac')) && (self::getBrowserName($userAgent) == 'Safari')) {
             return true;
