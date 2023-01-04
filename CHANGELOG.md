@@ -17,5 +17,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Removed
 
 ## [2.0.0] - 2022-07-04
+[2.1.1]: https://dev.azure.com/myfatoorahsc/Public-Repo/_git/Library?version=GT2.1.1
 [2.1.0]: https://dev.azure.com/myfatoorahsc/Public-Repo/_git/Library?version=GT2.1.0
 [2.0.0]: https://dev.azure.com/myfatoorahsc/Public-Repo/_git/Library?version=GT2.0.0
