@@ -527,55 +527,52 @@ class MyfatoorahApiV2 {
      */
     public static function getMyFatoorahCountries() {
 
-        $cachedFile = dirname(__FILE__) . '/mf-config.json';
-
-        if (file_exists($cachedFile)) {
-            if ((time() - filemtime($cachedFile) > 3600)) {
-                $countries = self::createNewMFConfigFile($cachedFile);
+        $mfConfigFile = __DIR__ . '/mf-config.json';
+        
+        if (file_exists($mfConfigFile)) {
+            if ((time() - filemtime($mfConfigFile) > 3600)) {
+                self::updateMFConfigFile($mfConfigFile);
             }
 
-            if (!empty($countries)) {
-                return $countries;
-            }
-
-            $cache = file_get_contents($cachedFile);
-            return ($cache) ? json_decode($cache, true) : [];
-        } else {
-            return self::createNewMFConfigFile($cachedFile);
+            $content = file_get_contents($mfConfigFile);
+            return ($content) ? json_decode($content, true) : [];
         }
+        return [];
     }
 
     //-----------------------------------------------------------------------------------------------------------------------------------------
 
     /**
+     * Update the mf-config.json file 
+     * 
+     * @param string $mfConfigFile
      *
-     * @param string $cachedFile
-     *
-     * @return array
+     * @return void
      */
-    protected static function createNewMFConfigFile($cachedFile) {
+    protected static function updateMFConfigFile($mfConfigFile) {
 
-        $curl = curl_init('https://portal.myfatoorah.com/Files/API/mf-config.json');
-        curl_setopt_array($curl, array(
+        if (!is_writable($mfConfigFile)) {
+            $mfError = 'To enable MyFatoorah auto-update, kindly give the write/read permissions to the library folder ' . __DIR__ . ' on your server and its files.';
+            trigger_error($mfError, E_USER_WARNING);
+            return;
+        }
+
+        touch($mfConfigFile);
+
+        $mfCurl = curl_init('https://portal.myfatoorah.com/Files/API/mf-config.json');
+        curl_setopt_array($mfCurl, array(
             CURLOPT_HTTPHEADER     => ['Content-Type: application/json'],
             CURLOPT_RETURNTRANSFER => true
         ));
 
-        $response  = curl_exec($curl);
-        $http_code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
-        curl_close($curl);
+        $mfResponse = curl_exec($mfCurl);
+        $mfHttpCode = curl_getinfo($mfCurl, CURLINFO_HTTP_CODE);
 
-        if ($http_code == 200 && is_string($response)) {
-            file_put_contents($cachedFile, $response);
-            return json_decode($response, true);
-        } elseif ($http_code == 403) {
-            touch($cachedFile);
-            $fileContent = file_get_contents($cachedFile);
-            if (!empty($fileContent)) {
-                return json_decode($fileContent, true);
-            }
+        curl_close($mfCurl);
+
+        if ($mfHttpCode == 200 && is_string($mfResponse)) {
+            file_put_contents($mfConfigFile, $mfResponse);
         }
-        return [];
     }
 
     //-----------------------------------------------------------------------------------------------------------------------------------------

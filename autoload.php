@@ -8,7 +8,7 @@
  *
  * Created by MyFatoorah http://www.myfatoorah.com/
  * Developed By tech@myfatoorah.com
- * Date: 17/01/2022
+ * Date: 20/11/2022
  * Time: 12:00
  *
  * API Documentation on https://myfatoorah.readme.io/docs
@@ -18,32 +18,55 @@
  * @copyright 2021 MyFatoorah, All rights reserved
  * @license GNU General Public License v3.0
  */
-
+$mfVersion   = '2.1';
 $mfLibFolder = __DIR__ . '/src';
 $mfLibFile   = $mfLibFolder . '/MyfatoorahApiV2.php';
 
-if (!file_exists($mfLibFile) || (time() - filemtime($mfLibFile) > 86400)) {
-    $mfCurl = curl_init('https://portal.myfatoorah.com/Files/API/php/library/2.0.0/MyfatoorahLibrary.txt');
-    curl_setopt_array($mfCurl, array(
-        CURLOPT_RETURNTRANSFER => true,
-    ));
+if (!is_writable($mfLibFile)) {
+    $mfError = 'To enable MyFatoorah auto-update, kindly give the write/read permissions to the library folder ' . __DIR__ . ' on your server and its files.';
+    trigger_error($mfError, E_USER_WARNING);
+} elseif ((time() - filemtime($mfLibFile) > 86400)) {
 
-    $mfResponse = curl_exec($mfCurl);
-    $mfHttpCode = curl_getinfo($mfCurl, CURLINFO_HTTP_CODE);
+    touch($mfLibFile);
 
-    curl_close($mfCurl);
-    if ($mfHttpCode == 200 && is_string($mfResponse)) {
-        $mfNamespace = '<?php namespace MyFatoorah\Library; ';
-        $mfUse1      = 'use MyFatoorah\Library\MyfatoorahApiV2; ';
-        $mfUse2      = 'use Exception; ';
-        $mfClass     = 'class ';
+    if (in_array('curl', get_loaded_extensions())) {
+        try {
+            $mfCurl = curl_init("https://portal.myfatoorah.com/Files/API/php/library/$mfVersion/MyfatoorahLibrary.txt");
+            curl_setopt_array($mfCurl, array(
+                CURLOPT_RETURNTRANSFER => true,
+            ));
 
-        $mfSplitFile = explode('class', $mfResponse);
+            $mfResponse = curl_exec($mfCurl);
+            $mfHttpCode = curl_getinfo($mfCurl, CURLINFO_HTTP_CODE);
+            $mfCurlErr  = curl_error($mfCurl);
 
-        file_put_contents($mfLibFolder . '/MyfatoorahApiV2.php', $mfNamespace . $mfUse2 . $mfClass . $mfSplitFile[1]);
-        file_put_contents($mfLibFolder . '/PaymentMyfatoorahApiV2.php', $mfNamespace . $mfUse1 . $mfUse2 . $mfClass . $mfSplitFile[2]);
-        file_put_contents($mfLibFolder . '/ShippingMyfatoorahApiV2.php', $mfNamespace . $mfUse1 . $mfClass . $mfSplitFile[3]);
-    } elseif ($mfHttpCode == 403) {
-        touch($mfLibFile);
+            curl_close($mfCurl);
+
+            if ($mfCurlErr) {
+                trigger_error('cURL Error: ' . $mfCurlErr, E_USER_WARNING);
+            }
+
+            if ($mfHttpCode == 200 && is_string($mfResponse)) {
+                mfPutFileContent($mfLibFolder, $mfResponse);
+            }
+        } catch (\Exception $ex) {
+            trigger_error('Exception: ' . $ex->getMessage(), E_USER_WARNING);
+        }
+    } else {
+        trigger_error('Kindly install and enable PHP cURL extension in your server.', E_USER_WARNING);
     }
+}
+
+function mfPutFileContent($mfLibFolder, $mfResponse)
+{
+    $mfNamespace = '<?php namespace MyFatoorah\Library; ';
+    $mfUse1      = 'use MyFatoorah\Library\MyfatoorahApiV2; ';
+    $mfUse2      = 'use Exception; ';
+    $mfClass     = 'class ';
+
+    $mfSplitFile = explode('class', $mfResponse);
+
+    file_put_contents($mfLibFolder . '/MyfatoorahApiV2.php', $mfNamespace . $mfUse2 . $mfClass . $mfSplitFile[1]);
+    file_put_contents($mfLibFolder . '/PaymentMyfatoorahApiV2.php', $mfNamespace . $mfUse1 . $mfUse2 . $mfClass . $mfSplitFile[2]);
+    file_put_contents($mfLibFolder . '/ShippingMyfatoorahApiV2.php', $mfNamespace . $mfUse1 . $mfClass . $mfSplitFile[3]);
 }
