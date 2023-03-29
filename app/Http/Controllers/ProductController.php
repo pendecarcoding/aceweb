@@ -21,6 +21,7 @@ use App\Services\ProductService;
 use App\Services\ProductTaxService;
 use App\Services\ProductFlashDealService;
 use App\Services\ProductStockService;
+use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {
@@ -162,6 +163,13 @@ class ProductController extends Controller
         return view('backend.product.pricefeed.index',compact('data','last'));
     }
 
+    public function pricefeedjson()
+    {
+        $data = Pricefeed::select('updateby','name','systemprice','overrideprice','created_at')->orderby('id','desc')->get();
+        header("Content-Type: application/json");
+        echo json_encode($data);
+    }
+
     public function pricefeedupdate(Request $r){
         $data =[
             'updateby'=>'AdminACE',
@@ -169,11 +177,22 @@ class ProductController extends Controller
             'systemprice'=>$r->pricecurrent,
             'overrideprice'=>$r->override,
         ];
-        try {
-            return Pricefeed::insert($data);
-        } catch (\Throwable $th) {
-            return back()->with('danger',$th->getmessage());
-        }
+        Pricefeed::insert($data);
+            $datas = Product::all();
+            foreach ($datas as $key => $v) {
+                $margin = DB::table('marginprice')->where('denominations',$v->weight)->first();
+                $formula = ($r->override+$margin->margin)*$v->weight;
+                $u = [
+                    'unit_price'=>$formula
+                ];
+                $act = Product::where('id',$v->id)->update($u);
+                $p = [
+                    'price'=>$formula
+                ];
+                $act = DB::table('product_stocks')->where('product_id',$v->id)->update($p);
+            }
+
+
     }
 
 

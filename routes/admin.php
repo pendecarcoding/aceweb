@@ -101,6 +101,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'admin']], function(
         Route::get('/products/all', 'all_products')->name('products.all');
         Route::get('/products/create', 'create')->name('products.create');
         Route::get('/products/pricefeed', 'pricefeed')->name('pricefeed.set');
+        Route::get('/products/pricefeedjson', 'pricefeedjson')->name('pricefeed.json');
         Route::post('/products/updatepricefeed', 'pricefeedupdate')->name('pricefeed.update');
         Route::post('/products/store/', 'store')->name('products.store');
         Route::get('/products/admin/{id}/edit', 'admin_product_edit')->name('products.admin.edit');

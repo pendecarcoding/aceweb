@@ -1102,8 +1102,8 @@ $totalcart = ($tmp_user != null) ? \App\Models\Cart::where('temp_user_id',$tmp_u
         // Pagination end
     </script>
 
-<script src="{{ static_asset('aceweb') }}/assets/ace/realprice.js"></script>
-   
+{{-- <script src="{{ static_asset('aceweb') }}/assets/ace/realprice.js"></script> --}}
+
 
 @endsection
 

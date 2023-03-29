@@ -72,7 +72,7 @@
                       /></center>
                       <p>{{ $v->name }}</p>
                       <div style="display:none" class="gram">{{$v->weight}}</div>
-                      <h5 class="price"></h5>
+                      <h5 class="price">RM{{$v->unit_price}}</h5>
                     </a>
                   </div>
                 </div>
@@ -103,5 +103,5 @@
         });
     </script>
 
-    <script src="{{ static_asset('aceweb') }}/assets/ace/realprice.js"></script>
+    {{-- <script src="{{ static_asset('aceweb') }}/assets/ace/realprice.js"></script> --}}
 @endsection

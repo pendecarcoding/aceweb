@@ -28,8 +28,8 @@
 	<link rel="stylesheet" href="{{ static_asset('assets/css/aiz-core.css') }}">
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.5/dist/sweetalert2.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.5/dist/sweetalert2.all.min.js"></script>
-    <link href="{{ static_asset('assets/DataTables/datatables.min.css') }}" rel="stylesheet"/>
-    <script src="{{ static_asset('assets/DataTables/datatables.min.js') }}"></script>
+    <link href="{{ static_asset('assets/Datatables/datatables.min.css') }}" rel="stylesheet"/>
+    <script src="{{ static_asset('assets/Datatables/datatables.min.js') }}"></script>
     <style>
         body {
             font-size: 12px;

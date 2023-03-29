@@ -44,7 +44,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach($data as $i =>$v)
+                {{-- @foreach($data as $i =>$v)
                 <tr>
                     <td>{{ $v->created_at }}</td>
                     <td>{{ $v->updateby }}</td>
@@ -54,7 +54,7 @@
 
                 </tr>
 
-                @endforeach
+                @endforeach --}}
 
             </tbody>
             <tfoot>
@@ -73,6 +73,7 @@
 </div>
 
 <script src="{{ static_asset('aceweb') }}/assets/ace/realprice-back.js"></script>
+
 <script>
     function validateoverride(input){
         var inputValue = input.value;
@@ -148,10 +149,53 @@ swalWithBootstrapButtons.fire({
     });
     }
   </script>
-  <script>
-    $(document).ready( function () {
+
+  <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+  <script src="{{ asset('assets/Datatables/datatables.js')}}"></script>
+<script>
+    $(document).ready(function () {
     $('#example').DataTable();
-} );
+});
+    </script>
+  <script>
+    $(document).ready(function() {
+
+      // Function to fetch and update data
+      function fetchData() {
+        $.ajax({
+          url: "{{ route('pricefeed.json') }}",
+          type: "GET",
+          dataType: "json",
+          success: function(data) {
+            // Clear existing table data
+            $("#example tbody").empty();
+            // Insert new data into table dynamically
+            $.each(data, function(i, item) {
+                const date = new Date(item.created_at);
+                // Get date
+                const year = date.getFullYear();
+                const month = date.getMonth() + 1;
+                const day = date.getDate();
+
+                // Get time
+                const hours = date.getHours();
+                const minutes = date.getMinutes();
+                const seconds = date.getSeconds();
+
+                const alldate = year+"-"+month+"-"+day+" "+hours+":"+minutes+":"+seconds+".";
+
+              $("#example tbody").append("<tr><td>" + alldate + "</td><td>" + item.updateby + "</td><td>" + item.name + "</td><td>" + item.systemprice + "</td><td>" + item.overrideprice+ "</td></tr>");
+            });
+          },
+          complete: function() {
+            // Schedule the next request when the current one's complete
+            setTimeout(fetchData, 1000);
+          }
+        });
+      }
+      // Initial call to fetch data
+      fetchData();
+    });
   </script>
 
 @endsection

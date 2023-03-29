@@ -37,6 +37,7 @@ use App\Mail\InvoiceEmailManager;
 use CoreComponentRepository;
 use App\Utility\SmsUtility;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\DB;
 
 
 
@@ -86,20 +87,26 @@ function getimage($id){
 }
 
 function updatecronjob(){
+    $gpLiveBuyPrices = array();
     $client = new WebSocket\Client("wss://snappy.ace2u.com/socket.io/?EIO=3socket.io/?EIO=3&transport=websocket");
-    $client->text('Hello PieSocket!');
+    $client->text('gpweb');
 
     while (true) {
         try {
             $message = $client->receive();
             $json = substr($message, strpos($message, '['));
-
             $data =  json_encode($json);
-
+             //print_r($data);
             // Decode the JSON message
             //$data = json_decode($json, true);
+             // initialize an empty array to store the extracted values
+             if($data[0]=='gpweb'){
+                print "KU";
 
-            // Access the gp_livebuyprice_gm value
+            }else{
+                print "TAIK";
+            }
+
 
 
 
@@ -109,16 +116,20 @@ function updatecronjob(){
         }
     }
     $client->close();
+}
 
 
 
-
-
-
-
-
-
-
+function updatetodbprice($price){
+    $data = Product::all();
+    foreach ($data as $key => $v) {
+        $margin = DB::table('marginprice')->where('denominations',$v->weight)->first();
+        $formula = ($price+$margin->margin)*$v->weight;
+        $u = [
+            'unit_price'=>$formula
+        ];
+        $act = Product::where('id',$v->id)->update($u);
+    }
 }
 
 function callm1payment($id,$token){
