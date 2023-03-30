@@ -19,7 +19,9 @@ function connect() {
               if(json[0]=='gpweb'){
 
                let pricefeed = document.getElementById("pricecurrent");
+               let override = document.getElementById("override");
                pricefeed.value = json[1].gp_livesellprice_gm.toFixed(3);
+               override.value = Math.ceil(json[1].gp_livesellprice_gm).toFixed(2);
 
               }else{
                 if(json[0]=='tradeopen' && json[1]=='false'){
