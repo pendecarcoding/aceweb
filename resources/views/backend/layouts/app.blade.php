@@ -28,8 +28,11 @@
 	<link rel="stylesheet" href="{{ static_asset('assets/css/aiz-core.css') }}">
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.5/dist/sweetalert2.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.5/dist/sweetalert2.all.min.js"></script>
-    <link href="{{ static_asset('assets/Datatables/datatables.min.css') }}" rel="stylesheet"/>
-    <script src="{{ static_asset('assets/Datatables/datatables.min.js') }}"></script>
+    {{-- <link href="{{ static_asset('assets/Datatables/datatables.min.css') }}" rel="stylesheet"/>
+    <script src="{{ static_asset('assets/Datatables/datatables.min.js') }}"></script> --}}
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css" />
+
+
     <style>
         body {
             font-size: 12px;
@@ -134,6 +137,14 @@
 			}
         }
     </script>
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
+    <script>
+        $(document).ready(function () {
+    $('#example').DataTable({
+        pagingType: 'full_numbers',
+    });
+});
+        </script>
 
 </body>
 </html>

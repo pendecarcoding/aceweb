@@ -110,6 +110,13 @@ p {
     margin-bottom: 1rem;
 }
 
+
+.dataTables_wrapper {
+    position: relative;
+    clear: both;
+    width: 100%;
+}
+
 abbr[data-original-title],
 abbr[title] {
     text-decoration: underline;
