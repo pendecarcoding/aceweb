@@ -333,7 +333,7 @@ Route::group(['middleware' => ['customer', 'verified', 'unbanned']], function() 
 
 Route::group(['middleware' => ['auth']], function() {
 
-    Route::get('invoice/{order_id}', [InvoiceController::class, 'invoice_download'])->name('invoice.download');
+    Route::get('transaction/invoice/{order_id}', [InvoiceController::class, 'invoice_download'])->name('invoice.download');
 
     // Reviews
     Route::resource('/reviews', ReviewController::class);

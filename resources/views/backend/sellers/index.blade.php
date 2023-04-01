@@ -16,7 +16,7 @@
             <div class="col">
                 <h5 class="mb-md-0 h6">{{ translate('Sellers') }}</h5>
             </div>
-            
+
             @can('delete_seller')
                 <div class="dropdown mb-2 mb-md-0">
                     <button class="btn border dropdown-toggle" type="button" data-toggle="dropdown">
@@ -27,7 +27,7 @@
                     </div>
                 </div>
             @endcan
-            
+
             <div class="col-md-3 ml-auto">
                 <select class="form-control aiz-selectpicker" name="approved_status" id="approved_status" onchange="sort_sellers()">
                     <option value="">{{translate('Filter by Approval')}}</option>
@@ -41,12 +41,12 @@
                 </div>
             </div>
         </div>
-    
+
         <div class="card-body">
-            <table class="table aiz-table mb-0">
+            <table id="example" class="table aiz-table mb-0">
                 <thead>
                 <tr>
-                    
+
                     <th>
                         @if(auth()->user()->can('delete_seller'))
                             <div class="form-group">
@@ -100,10 +100,10 @@
                         </td>
                         <td>
                             <label class="aiz-switch aiz-switch-success mb-0">
-                                <input 
+                                <input
                                     @can('approve_seller') onchange="update_approved(this)" @endcan
-                                    value="{{ $shop->id }}" type="checkbox" 
-                                    <?php if($shop->verification_status == 1) echo "checked";?> 
+                                    value="{{ $shop->id }}" type="checkbox"
+                                    <?php if($shop->verification_status == 1) echo "checked";?>
                                     @cannot('approve_seller') disabled @endcan
                                 >
                                 <span class="slider round"></span>
@@ -251,16 +251,16 @@
             if(this.checked) {
                 // Iterate each checkbox
                 $('.check-one:checkbox').each(function() {
-                    this.checked = true;                        
+                    this.checked = true;
                 });
             } else {
                 $('.check-one:checkbox').each(function() {
-                    this.checked = false;                       
+                    this.checked = false;
                 });
             }
-          
+
         });
-        
+
         function show_seller_payment_modal(id){
             $.post('{{ route('sellers.payment_modal') }}',{_token:'{{ @csrf_token() }}', id:id}, function(data){
                 $('#payment_modal #payment-modal-content').html(data);
@@ -308,7 +308,7 @@
             $('#confirm-unban').modal('show', {backdrop: 'static'});
             document.getElementById('confirmationunban').setAttribute('href' , url);
         }
-        
+
         function bulk_delete() {
             var data = new FormData($('#sort_sellers')[0]);
             $.ajax({

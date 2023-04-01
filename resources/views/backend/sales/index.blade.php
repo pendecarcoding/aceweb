@@ -9,14 +9,14 @@
                 <h5 class="mb-md-0 h6">{{ translate('All Orders') }}</h5>
             </div>
 
-            <div class="dropdown mb-2 mb-md-0">
+            {{-- <div class="dropdown mb-2 mb-md-0">
                 <button class="btn border dropdown-toggle" type="button" data-toggle="dropdown">
                     {{translate('Bulk Action')}}
                 </button>
                 <div class="dropdown-menu dropdown-menu-right">
                     <a class="dropdown-item" href="#" onclick="bulk_delete()"> {{translate('Delete selection')}}</a>
                 </div>
-            </div>
+            </div> --}}
 
             <div class="col-lg-2 ml-auto">
                 <select class="form-control aiz-selectpicker" name="delivery_status" id="delivery_status">
@@ -105,14 +105,14 @@
                             @if ($order->user != null)
                                 {{ $order->user->name }}
                             @else
-                                Guest ({{ $order->guest_id }})
+                                Guest ({{ $order->name }})
                             @endif
                         </td>
                         <td>
                             @if($order->shop)
                                 {{ $order->shop->name }}
                             @else
-                                {{ translate('Inhouse Order') }}
+                                {{ translate('ACE') }}
                             @endif
                         </td>
                         <td>
@@ -162,11 +162,11 @@
                             <a class="btn btn-soft-info btn-icon btn-circle btn-sm" href="{{ route('invoice.download', $order->id) }}" title="{{ translate('Download Invoice') }}">
                                 <i class="las la-download"></i>
                             </a>
-                            @can('delete_order')
+                            {{-- @can('delete_order')
                                 <a href="#" class="btn btn-soft-danger btn-icon btn-circle btn-sm confirm-delete" data-href="{{route('orders.destroy', $order->id)}}" title="{{ translate('Delete') }}">
                                     <i class="las la-trash"></i>
                                 </a>
-                            @endcan
+                            @endcan --}}
                         </td>
                     </tr>
                     @endforeach

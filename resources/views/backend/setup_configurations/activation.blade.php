@@ -2,7 +2,7 @@
 
 @section('content')
 
-<h4 class="text-center text-muted">{{translate('System')}}</h4>
+{{-- <h4 class="text-center text-muted">{{translate('System')}}</h4>
 <div class="row">
     <div class="col-lg-4">
         <div class="card">
@@ -221,7 +221,7 @@
             </div>
         </div>
     @endif
-</div>
+</div> --}}
 
 <h4 class="text-center text-muted mt-4">{{translate('Payment Related')}}</h4>
 <div class="row">
@@ -604,7 +604,7 @@
 
 </div>
 
-<h4 class="text-center text-muted mt-4">{{translate('Social Media Login')}}</h4>
+{{-- <h4 class="text-center text-muted mt-4">{{translate('Social Media Login')}}</h4>
 <div class="row">
     <div class="col-lg-4">
         <div class="card">
@@ -670,7 +670,7 @@
             </div>
         </div>
     </div>
-</div>
+</div> --}}
 
 @endsection
 

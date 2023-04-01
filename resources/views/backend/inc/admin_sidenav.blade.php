@@ -75,13 +75,13 @@
                                 </a>
                             </li>
                             @endcan
-                           @can('add_new_product')
+                           {{-- @can('add_new_product')
                                 <li class="aiz-side-nav-item">
                                     <a class="aiz-side-nav-link" href="{{route('products.create')}}">
                                         <span class="aiz-side-nav-text">{{translate('Add New product')}}</span>
                                     </a>
                                 </li>
-                            @endcan
+                            @endcan --}}
                             @can('show_all_products')
                                 <li class="aiz-side-nav-item">
                                     <a href="{{route('products.all')}}" class="aiz-side-nav-link">
@@ -1209,14 +1209,14 @@
                                     </a>
                                 </li>
                             @endcan
-                            @can('social_media_logins')
+                            {{-- @can('social_media_logins')
                                 <li class="aiz-side-nav-item">
                                     <a href="{{ route('social_login.index') }}" class="aiz-side-nav-link">
                                         <span class="aiz-side-nav-text">{{translate('Social media Logins')}}</span>
                                     </a>
                                 </li>
-                            @endcan
-                            @canany(['facebook_chat','facebook_comment'])
+                            @endcan --}}
+                            {{-- @canany(['facebook_chat','facebook_comment'])
                                 <li class="aiz-side-nav-item">
                                     <a href="javascript:void(0);" class="aiz-side-nav-link">
                                         <span class="aiz-side-nav-text">{{translate('Facebook')}}</span>
@@ -1239,8 +1239,8 @@
                                         @endcan
                                     </ul>
                                 </li>
-                            @endcanany
-                            @canany(['analytics_tools_configuration','google_recaptcha_configuration','google_map_setting','google_firebase_setting'])
+                            @endcanany --}}
+                            {{-- @canany(['analytics_tools_configuration','google_recaptcha_configuration','google_map_setting','google_firebase_setting'])
                                 <li class="aiz-side-nav-item">
                                     <a href="javascript:void(0);" class="aiz-side-nav-link">
                                         <span class="aiz-side-nav-text">{{translate('Google')}}</span>
@@ -1277,7 +1277,7 @@
                                         @endcan
                                     </ul>
                                 </li>
-                            @endcanany
+                            @endcanany --}}
                             @canany(['shipping_configuration','shipping_country_setting','manage_shipping_states','manage_shipping_cities','manage_zones','manage_carriers'])
                                 <li class="aiz-side-nav-item">
                                     <a href="javascript:void(0);" class="aiz-side-nav-link">
