@@ -26,7 +26,7 @@
                     <div class="modal-body">
                         <button style="position: absolute;
                         left: 90%;" type="button" class="btn btn-danger" data-bs-dismiss="modal" aria-label="Close">X</button>
-                        <img class="img-responsive" src="{{ static_asset('aceweb') }}/assets/img/discount.gif">
+                        <img class="img-responsive" src="{{ static_asset('aceweb') }}/assets/img/discounts.gif">
                     </div>
 
                   </div>
@@ -45,8 +45,9 @@
 
               <div style="margin-top: 50px" class="row-personals">
                 <div class="col-md-9">
-                  There is a discount for purchasing in more quantities
-                  <br>Contact us at +6011-2861 3355 or acejewels@ace2u.com
+                    Purchase of 100 gram and more enjoys extra discount
+                    <br>Free registration to be our dealer
+                    <br>For more enquiries please contact us at 011-28612255
                 </div>
                 <div class="col-md-3">
                   <div class="row-personals">
