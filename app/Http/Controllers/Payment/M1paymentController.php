@@ -95,8 +95,8 @@ class M1paymentController extends Controller
             // Call API with your client and get a response for your call
             $response = transactionm1($link,$token,$body);
             // If call returns body in response, you can get the deserialized version from the result attribute of the response
-            print $sign;
-            // return Redirect::to($response);
+            // print $sign;
+            return Redirect::to($response);
         }catch (\Exception $ex) {
             flash(translate($ex->getmessage()))->error();
             //return back();
