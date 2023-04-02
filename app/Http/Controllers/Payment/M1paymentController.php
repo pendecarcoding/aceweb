@@ -87,24 +87,24 @@ class M1paymentController extends Controller
         $body = json_encode($body);
         if (get_setting('m1_sandbox') == 1) {
             $link    = 'https://gateway-uat.m1pay.com.my/m1paywall/api/transaction';
-            print($token);
+
         }
         else {
             $link    = 'https://gateway.m1pay.com.my/wall/api/transaction';
         }
 
-    //    try {
-    //         // Call API with your client and get a response for your call
-    //         $response = transactionm1($link,$token,$body);
-    //         // If call returns body in response, you can get the deserialized version from the result attribute of the response
-    //         //print $sign;
-    //         print($response);
-    //         //return Redirect::to($response);
-    //     }catch (\Exception $ex) {
-    //         flash(translate($ex->getmessage()))->error();
-    //         //return back();
-    //         //print $ex->getmessage();
-    //     }
+       try {
+            // Call API with your client and get a response for your call
+            $response = transactionm1($link,$token,$body);
+            // If call returns body in response, you can get the deserialized version from the result attribute of the response
+            //print $sign;
+            // print($response);
+            return Redirect::to($response);
+        }catch (\Exception $ex) {
+            flash(translate($ex->getmessage()))->error();
+            //return back();
+            //print $ex->getmessage();
+        }
 
 
 
