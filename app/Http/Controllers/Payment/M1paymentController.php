@@ -67,7 +67,6 @@ class M1paymentController extends Controller
 
         $signdata = $description.'|'.$amount.'|'.$order['code'].'|'.$order['code'].'|MYR|'.$detail->email.'|41012618';
         $sign = str_replace(' ','',getsignm1payment($signdata));
-        //print $sign;
         $body =[
                 "transactionAmount"=>$amount,
                 "merchantId"=>env('M1_CLIENT_ID'),
@@ -87,7 +86,6 @@ class M1paymentController extends Controller
         $body = json_encode($body);
         if (get_setting('m1_sandbox') == 1) {
             $link    = 'https://gateway-uat.m1pay.com.my/m1paywall/api/transaction';
-
         }
         else {
             $link    = 'https://gateway.m1pay.com.my/wall/api/transaction';
@@ -98,12 +96,11 @@ class M1paymentController extends Controller
             $response = transactionm1($link,$token,$body);
             // If call returns body in response, you can get the deserialized version from the result attribute of the response
             //print $sign;
-            print($response);
-            //return Redirect::to($response);
+            return Redirect::to($response);
         }catch (\Exception $ex) {
             flash(translate($ex->getmessage()))->error();
             //return back();
-            //print $ex->getmessage();
+            print $ex->getmessage();
         }
 
 
