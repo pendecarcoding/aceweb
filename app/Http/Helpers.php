@@ -263,7 +263,7 @@ curl_close($cURLConnection);
 // $apiResponse - available data from the API request
 $jsonArrayResponse = json_decode($apiResponse);
 //print $apiResponse;
-return $jsonArrayResponse;
+print_r ($jsonArrayResponse);
 }
 
 function getnewnews(){
