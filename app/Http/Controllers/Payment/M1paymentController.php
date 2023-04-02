@@ -87,7 +87,7 @@ class M1paymentController extends Controller
         $body = json_encode($body);
         if (get_setting('m1_sandbox') == 1) {
             $link    = 'https://gateway-uat.m1pay.com.my/m1paywall/api/transaction';
-            print $link;
+            print($token);
         }
         else {
             $link    = 'https://gateway.m1pay.com.my/wall/api/transaction';
