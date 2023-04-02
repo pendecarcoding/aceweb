@@ -99,8 +99,8 @@ class M1paymentController extends Controller
             return Redirect::to($response);
         }catch (\Exception $ex) {
             flash(translate($ex->getmessage()))->error();
-            //return back();
-            print $ex->getmessage();
+            return back();
+            //print $ex->getmessage();
         }
 
 
