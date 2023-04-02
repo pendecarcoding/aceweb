@@ -224,8 +224,8 @@ function transactionm1($url,$token,$body){
 
         // $apiResponse - available data from the API request
         $jsonArrayResponse = json_decode($apiResponse);
-        //print $apiResponse;
-        return $apiResponse;
+        print $apiResponse;
+        // return $apiResponse;
 }
 function strToHex($string){
     $hex = '';
