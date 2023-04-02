@@ -67,42 +67,43 @@ class M1paymentController extends Controller
 
         $signdata = $description.'|'.$amount.'|'.$order['code'].'|'.$order['code'].'|MYR|'.$detail->email.'|41012618';
         $sign = str_replace(' ','',getsignm1payment($signdata));
-        print $sign;
-    //     $body =[
-    //             "transactionAmount"=>$amount,
-    //             "merchantId"=>env('M1_CLIENT_ID'),
-    //             "transactionCurrency"=>"MYR",
-    //             "merchantOrderNo"=>$order['code'],
-    //             "exchangeOrderNo"=>$order['code'],
-    //             "productDescription"=>$description,
-    //             "fpxBank"=>1,
-    //             "chanel"=>"CARD_PAYMENT",
-    //             "emailAddress"=>$detail->email,
-    //             "signedData"=>$sign,
-    //             "phoneNumber"=>$detail->phone,
-    //             "skipConfirmation"=>true
-    //     ];
+        //print $sign;
+        $body =[
+                "transactionAmount"=>$amount,
+                "merchantId"=>env('M1_CLIENT_ID'),
+                "transactionCurrency"=>"MYR",
+                "merchantOrderNo"=>$order['code'],
+                "exchangeOrderNo"=>$order['code'],
+                "productDescription"=>$description,
+                "fpxBank"=>1,
+                "chanel"=>"CARD_PAYMENT",
+                "emailAddress"=>$detail->email,
+                "signedData"=>$sign,
+                "phoneNumber"=>$detail->phone,
+                "skipConfirmation"=>true
+        ];
 
 
-    //     $body = json_encode($body);
-    //     if (get_setting('m1_sandbox') == 1) {
-    //         $link    = 'https://gateway-uat.m1pay.com.my/m1paywall/api/transaction';
-    //     }
-    //     else {
-    //         $link    = 'https://gateway.m1pay.com.my/wall/api/transaction';
-    //     }
+        $body = json_encode($body);
+        if (get_setting('m1_sandbox') == 1) {
+            $link    = 'https://gateway-uat.m1pay.com.my/m1paywall/api/transaction';
+        }
+        else {
+            $link    = 'https://gateway.m1pay.com.my/wall/api/transaction';
+        }
 
-    //    try {
-    //         // Call API with your client and get a response for your call
-    //         $response = transactionm1($link,$token,$body);
-    //         // If call returns body in response, you can get the deserialized version from the result attribute of the response
-    //         //print $sign;
-    //         return Redirect::to($response);
-    //     }catch (\Exception $ex) {
-    //         flash(translate($ex->getmessage()))->error();
-    //         //return back();
-    //         //print $ex->getmessage();
-    //     }
+       try {
+            // Call API with your client and get a response for your call
+            $response = transactionm1($link,$token,$body);
+            // If call returns body in response, you can get the deserialized version from the result attribute of the response
+            //print $sign;
+            print($response);
+            //return Redirect::to($response);
+        }catch (\Exception $ex) {
+            flash(translate($ex->getmessage()))->error();
+            //return back();
+            //print $ex->getmessage();
+        }
 
 
 
